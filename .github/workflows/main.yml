@@ -10,7 +10,7 @@ env:
 
 jobs:
   build:
-    name: Build & Package Static Export
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
@@ -25,12 +25,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build (static export via next.config.js)
+      - name: Build project
         run: npm run build
-        # "build" script remains: "next build"
-
-      - name: Verify static output
-        run: ls -R out
 
       - name: Upload static site
         uses: actions/upload-artifact@v4
@@ -55,5 +51,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: out
+          publish_dir: ./.next
 
