@@ -10,46 +10,50 @@ env:
 
 jobs:
   build:
-    name: Build
+    name: Build & Package Static Export
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'    # ← bump this from 16 to 18
+          node-version: '18.x'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
+      - name: Build (static export via next.config.js)
         run: npm run build
+        # "build" script remains: "next build"
 
-      - name: Upload production-ready build files
+      - name: Verify static output
+        run: ls -R out
+
+      - name: Upload static site
         uses: actions/upload-artifact@v4
         with:
           name: production-files
-          path: ./.next   # Next.js build output
-          
+          path: out
+
   deploy:
-    name: Deploy
+    name: Deploy to GitHub Pages
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
 
     steps:
-      - name: Download artifact
+      - name: Download static site
         uses: actions/download-artifact@v4
         with:
           name: production-files
-          path: ./.next
+          path: out
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./.next
+          publish_dir: out
 
