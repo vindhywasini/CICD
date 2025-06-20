@@ -1,0 +1,1 @@
+Continuous Integration and Continuous Delivery/Deployment (CI/CD) is a set of practices and tools designed to streamline and automate your software delivery process
