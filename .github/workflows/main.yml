@@ -20,11 +20,10 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: '18.x'    # ← bump this from 16 to 18
 
       - name: Install dependencies
         run: npm install
-        # once you do add a lockfile, you can switch to `npm ci` here
 
       - name: Build project
         run: npm run build
@@ -33,8 +32,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: production-files
-          path: ./build
-
+          path: ./.next   # Next.js build output
+          
   deploy:
     name: Deploy
     needs: build
@@ -46,10 +45,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: production-files
-          path: ./build
+          path: ./.next
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          publish_dir: ./.next
+
