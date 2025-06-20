@@ -1,0 +1,11 @@
+{
+  "name": "cicd",
+  "version": "1.0.0",
+  "description": "Continuous Integration and Continuous Delivery/Deployment (CI/CD) is a set of practices and tools designed to streamline and automate your software delivery process",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
